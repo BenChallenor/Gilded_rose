@@ -13,7 +13,7 @@ describe GildedRose do
 
   describe '#standard_items' do
     before(:each) do
-      @items = [Item.new('foo', 10, 20)]
+      @items = [Item.new('foo', 10, 20), Item.new('foo', 6, 0), Item.new('foo', 0, 6)]
       GildedRose.new(@items).update_quality
     end
 
@@ -26,9 +26,12 @@ describe GildedRose do
       expect(@items[0].quality).to eq 19
     end
 
-    
+    it 'its quality value is never negative' do
+      expect(@items[1].quality).to eq 0
+    end
 
+    it 'its quality degrades twice as fast once the sell by date has passed' do
+      expect(@items[2].quality).to eq 4
+    end
   end
-
-
 end
